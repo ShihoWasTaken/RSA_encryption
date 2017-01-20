@@ -11,11 +11,10 @@ public class PrivateKey
 	
 	public PrivateKey(PublicKey publicKey)
 	{
-		int a = 0;
-		int b = 0;
 		int r = 0;
 		int v = 0;
-		this.u = this.extendedEuclide(a, b ,r, this.u, v);
+		// TODO: mieux gérer les cast et regarder s'il peut y avoir overflow
+		this.u = this.extendedEuclide(Integer.parseInt(publicKey.getE().toString()), Integer.parseInt(publicKey.getM().toString()), r, this.u, v);
 		this.publicKey = publicKey;
 	}
 	
@@ -63,8 +62,6 @@ public class PrivateKey
 			r_ = rs - q*r_;
 			u_ = us - q*u_;
 			v_ = vs - q*v_;
-			System.out.println("u = " + u);
-			System.out.println("u_ = " + u_);
 		}	
 		return u_ + u;
 	}
@@ -96,13 +93,11 @@ public class PrivateKey
 		// TODO Auto-generated method stub
 		PublicKey publicKey = new PublicKey(new BigInteger("53"), new BigInteger("97"));
 		System.out.println(publicKey);
+		
 		System.out.println("\n\n");
+		
 		PrivateKey privateKey = new PrivateKey(publicKey);
 		System.out.println(privateKey);
-		
-		int u = 0;
-		u = privateKey.extendedEuclide(7, 4992 , 0 , u ,0);
-		System.out.println("\nEuclide | u = " + u);
 	}
 
 }

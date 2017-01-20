@@ -49,6 +49,9 @@ public class PublicKey
 	
 	public BigInteger getE()
 	{
+		// TODO: retirer ça une fois les tests finis
+		return new BigInteger("7");
+		/*
 		if(this.e == null)
 		{
 			boolean condition = false;
@@ -69,6 +72,7 @@ public class PublicKey
 		{
 			return this.e;
 		}
+		*/
 	}
 
 	public BigInteger getN() {
