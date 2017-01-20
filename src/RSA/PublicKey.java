@@ -5,60 +5,100 @@ import java.util.Random;
 
 public class PublicKey 
 {
-	private int p;	
-	private int q;
-	private int e;	
+	private BigInteger p;	
+	private BigInteger q;
+	private BigInteger m = null;
+	private BigInteger e = null;	
 	
 	public PublicKey()
 	{
-		
+		Random rand = new Random();		
+		this.p = BigInteger.probablePrime(32, rand);
+		this.q = BigInteger.probablePrime(32, rand);
+		while(this.q.equals(this.p))
+		{
+			this.q = BigInteger.probablePrime(32, rand);
+		}
 	}
 	
-	public int getP() {
+	public PublicKey(BigInteger p, BigInteger q)
+	{
+		this.p = p;
+		this.q = q;
+	}
+	
+	public BigInteger getP() {
 		return p;
 	}
 
-	public void setP(int p) {
+	public void setP(BigInteger p) {
 		this.p = p;
 	}
 
-	public int getQ() {
+	public BigInteger getQ() {
 		return q;
 	}
 
-	public void setQ(int q) {
+	public void setQ(BigInteger q) {
 		this.q = q;
 	}
 
-	public int getE() {
-		return e;
-	}
-
-	public void setE(int e) {
+	public void setE(BigInteger e) {
 		this.e = e;
 	}
 	
-	public static BigInteger getE(BigInteger m)
+	public BigInteger getE()
 	{
-		boolean condition = false;
-		BigInteger e = null;
-		Random rdn = new Random();
-		while(!condition)
+		if(this.e == null)
 		{
-			e = BigInteger.probablePrime(8, rdn);
-			if(m.gcd(e)  == BigInteger.ONE)
+			boolean condition = false;
+			BigInteger e = null;
+			Random rdn = new Random();
+			while(!condition)
 			{
-				condition = true;
+				e = BigInteger.probablePrime(8, rdn);
+				if(this.getM().gcd(e).equals(BigInteger.ONE))
+				{
+					condition = true;
+				}
 			}
+			this.e = e;
+			return e;
 		}
-		return e;
+		else
+		{
+			return this.e;
+		}
 	}
 
+	public BigInteger getN() {
+		return this.p.multiply(this.q);
+	}
+	
+	public BigInteger getM()
+	{
+		if(this.m == null)
+		{
+			BigInteger pMoins = this.p.subtract(BigInteger.ONE);
+			BigInteger qMoins =  this.q.subtract(BigInteger.ONE);
+			this.m = pMoins.multiply(qMoins);
+			return this.m;
+		}
+		else
+		{
+			return this.m;
+		}
+
+	}
 	
 	public String toString()
 	{
-		//TODO: corriger
-		return "Clé publique (" + this.e + "," + this.e + ")";
+		return "Clé publique(" + this.getN() + "," + this.getE() + ")" + "\n"
+				+ "p = " + this.getP() + "\n"
+				+ "q = " + this.getQ() + "\n"
+				+ "n = " + this.getN() + "\n"
+				+ "m = " + this.getM() + "\n"
+				+ "e = " + this.getE();
 	}
 	
 	/**
@@ -67,7 +107,11 @@ public class PublicKey
 	public static void main(String[] args) 
 	{
 		// TODO Auto-generated method stub
-		
+		PublicKey pub_key = new PublicKey(new BigInteger("53"), new BigInteger("97"));
+		System.out.println(pub_key);
+		System.out.println("\n\n");
+		PublicKey pub_key2 = new PublicKey();
+		System.out.println(pub_key2);
 	}
 
 }
