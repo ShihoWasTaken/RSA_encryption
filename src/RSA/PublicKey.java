@@ -110,7 +110,6 @@ public class PublicKey
 	 */
 	public static void main(String[] args) 
 	{
-		// TODO Auto-generated method stub
 		PublicKey publicKey = new PublicKey(new BigInteger("53"), new BigInteger("97"));
 		System.out.println(publicKey);
 		System.out.println("\n\n");

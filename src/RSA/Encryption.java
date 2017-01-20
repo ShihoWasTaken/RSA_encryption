@@ -69,7 +69,6 @@ public class Encryption {
 	 */
 	public static void main(String[] args)
 	{
-		// TODO Auto-generated method stub
 		List<Integer> list = StringToASCII("Bonjour !");
         for(int i = 0; i < list.size(); i++) {
             System.out.println(list.get(i));
