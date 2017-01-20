@@ -15,7 +15,7 @@ public class PrivateKey
 		int b = 0;
 		int r = 0;
 		int v = 0;
-		this.extendedEuclide(a, b ,r, this.u, v);
+		this.u = this.extendedEuclide(a, b ,r, this.u, v);
 		this.publicKey = publicKey;
 	}
 	
@@ -23,7 +23,7 @@ public class PrivateKey
 	 *  Entrée : a, b entiers (naturels)
 	 * Sortie : r entier (naturel) et  u, v entiers relatifs tels que r = pgcd(a, b) et r = a*u+b*v
 	 */
-	public void extendedEuclide(int a, int b, int r, int u, int v)
+	public int extendedEuclide(int a, int b, int r, int u, int v)
 	{
 		/*
 		 * 
@@ -63,7 +63,10 @@ public class PrivateKey
 			r_ = rs - q*r_;
 			u_ = us - q*u_;
 			v_ = vs - q*v_;
-		}		
+			System.out.println("u = " + u);
+			System.out.println("u_ = " + u_);
+		}	
+		return u_ + u;
 	}
 	
 	public int getU()
@@ -98,7 +101,7 @@ public class PrivateKey
 		System.out.println(privateKey);
 		
 		int u = 0;
-		privateKey.extendedEuclide(7, 4992 , 0 , u ,0);
+		u = privateKey.extendedEuclide(7, 4992 , 0 , u ,0);
 		System.out.println("\nEuclide | u = " + u);
 	}
 
