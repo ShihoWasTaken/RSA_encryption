@@ -4,41 +4,50 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
+import run.SocketClient;
+
 public class Encryption {
+
+	// Logger
+	static protected Logger logger =  Logger.getLogger(SocketClient.class);
 	
-	
-	public static String decrypt(PrivateKey privateKey, List<BigInteger> cryptedMessage)
+	public static String decrypt(PrivateKey privateKey, String cryptedMessage)
 	{
-		List<BigInteger> newList = new ArrayList<BigInteger>();
-        for(int i = 0; i < cryptedMessage.size(); i++)
+		List<BigInteger> newList 	= new ArrayList<BigInteger>();
+		String[] tabCrypted 		= cryptedMessage.split("-");
+		
+        for(int i = 0; i < tabCrypted.length; i++)
         {
-        	BigInteger letter = new BigInteger(cryptedMessage.get(i).toString());
-        	BigInteger temp = letter.modPow(new BigInteger(Integer.toString(privateKey.getU())),  privateKey.getPublicKey().getN());
-        	newList.add(temp);
+        	if(!tabCrypted[i].equals("-") && tabCrypted[i] != null){
+        		BigInteger letter = new BigInteger(tabCrypted[i]);
+	        	BigInteger temp = letter.modPow(privateKey.getU(),  privateKey.getPublicKey().getN());
+	        	newList.add(temp);
+        	}
         }
 
 		StringBuilder sb = new StringBuilder();
         for(int i = 0; i < newList.size(); i++)
         {
-        	String charStr = newList.get(i).toString();
-        	int foo = Integer.parseInt(charStr);
-        	sb.append((char) foo);
+        	sb.append((char) newList.get(i).byteValue());
         }
 		String str = sb.toString();
         return str;
 	}
 	
-	public static List<BigInteger> encrypt(PublicKey publicKey, String message)
+	public static String encrypt(PublicKey publicKey, String message)
 	{
 		List<Integer> raw = StringToASCII(message);
-		List<BigInteger> newList = new ArrayList<BigInteger>();
+		String str_encry = "";
+		
         for(int i = 0; i < raw.size(); i++)
         {
         	BigInteger letter = new BigInteger(raw.get(i).toString());
         	BigInteger temp = letter.modPow(publicKey.getE(),  publicKey.getN());
-        	newList.add(temp);
+        	str_encry += temp.toString()+"-";
         }
-        return newList;
+        return str_encry;
 	}
 	
 	public static int CharToASCII(final char character)
@@ -69,7 +78,7 @@ public class Encryption {
 	 */
 	public static void main(String[] args)
 	{
-		List<Integer> list = StringToASCII("Bonjour !");
+		/*List<Integer> list = StringToASCII("Bonjour !");
         for(int i = 0; i < list.size(); i++) {
             System.out.println(list.get(i));
         }
@@ -81,7 +90,7 @@ public class Encryption {
         }
 		PrivateKey privateKey = new PrivateKey(publicKey);
         String decrypted = decrypt(privateKey, list2);
-        System.out.println("Decrypted = " + decrypted);
+        System.out.println("Decrypted = " + decrypted);*/
 	}
 
 }
