@@ -4,17 +4,17 @@ import java.math.BigInteger;
 
 public class PrivateKey
 {
-	private int u;
+	private BigInteger u;
 	private PublicKey publicKey;
 	
 	
 	
 	public PrivateKey(PublicKey publicKey)
 	{
-		int r = 0;
-		int v = 0;
+		BigInteger r = new BigInteger("0");
+		BigInteger v = new BigInteger("0");
 		// TODO: mieux gérer les cast et regarder s'il peut y avoir overflow
-		this.u = this.extendedEuclide(Integer.parseInt(publicKey.getE().toString()), Integer.parseInt(publicKey.getM().toString()), r, this.u, v);
+		this.u = this.extendedEuclide(publicKey.getE(), publicKey.getM(), r, this.u, v);
 		this.publicKey = publicKey;
 	}
 	
@@ -22,7 +22,7 @@ public class PrivateKey
 	 *  Entrée : a, b entiers (naturels)
 	 * Sortie : r entier (naturel) et  u, v entiers relatifs tels que r = pgcd(a, b) et r = a*u+b*v
 	 */
-	public int extendedEuclide(int a, int b, int r, int u, int v)
+	public BigInteger extendedEuclide(BigInteger a, BigInteger b, BigInteger r, BigInteger u, BigInteger v)
 	{
 		/*
 		 * 
@@ -31,16 +31,16 @@ public class PrivateKey
 		 * rs, us, vs  variables de stockage intermédiaires
 		 */
 		r = a;
-		int r_ = b;
-		u = 1;
-		v = 0;
-		int u_ = 0;
-		int v_ = 1;
+		BigInteger r_ = b;
+		u = new BigInteger("1");
+		v = new BigInteger("0");
+		BigInteger u_ = new BigInteger("0");
+		BigInteger v_ = new BigInteger("1");
 		
-		int q;
-		int rs;
-		int us;
-		int vs;
+		BigInteger q;
+		BigInteger rs;
+		BigInteger us;
+		BigInteger vs;
 		
 		/*
 		 * tant que (r' ≠ 0) faire
@@ -50,23 +50,23 @@ public class PrivateKey
     	 * 		r' := rs - q*r', u' = us - q*u', v' = vs - q*v'
    		 * fait
    		 */
-		while(r_ != 0)
+		while(r.compareTo(BigInteger.valueOf(0)) != 1)
 		{
-			q = r / r_;
+			q = r.divide(r_);
 			rs = r;
 			us = u;
 			vs = v;
 			r = r_;
 			u = u_;
 			v = v_;
-			r_ = rs - q*r_;
-			u_ = us - q*u_;
-			v_ = vs - q*v_;
+			r_ = rs.subtract(q.multiply(r_));
+			u_ = us.subtract(q.multiply(u_));
+			v_ = vs.subtract(q.multiply(v_));
 		}	
-		return u_ + u;
+		return u.add(u);
 	}
 	
-	public int getU()
+	public BigInteger getU()
 	{
 		return this.u;
 	}
