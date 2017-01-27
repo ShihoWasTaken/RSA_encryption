@@ -57,10 +57,8 @@ public class SocketClient {
     	logger.info("receive (Other > "+ name +" ) > " +  text);
 
     	if( text != null ){
-	    	
 	        // Create a Pattern object
 	        String[] parts 		= text.split("\\|");
-	        
 	        
 	        // Add Key Public 
 	        if(parts.length == 3 && parts[0].equals("keypublic")){

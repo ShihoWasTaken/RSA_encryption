@@ -45,7 +45,7 @@ public class Encryption {
         {
         	BigInteger letter = new BigInteger(raw.get(i).toString());
         	BigInteger temp = letter.modPow(publicKey.getE(),  publicKey.getN());
-        	str_encry += temp.toString()+"-";
+        	str_encry += temp.toString() + "-";
         }
         return str_encry;
 	}

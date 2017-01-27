@@ -3,13 +3,10 @@ package client;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.Socket;
-import java.util.regex.Pattern;
 
 import javax.swing.JFrame;
 
-import org.apache.log4j.Logger;
 
 import RSA.PrivateKey;
 import RSA.PublicKey;
@@ -37,7 +34,7 @@ public class Client extends SocketClient {
                 	inputStream = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                 	
                     String line;
-                    send("keypublic", key_public.getN()+ "|" + key_public.getE());
+                    send("keypublic", key_public.getP()+ "|" + key_public.getQ());
                     while (true) {
                     	line = inputStream.readLine();
                     	logger.info("-->" + line);
