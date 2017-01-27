@@ -69,7 +69,8 @@ public class SocketClient {
 	        // add message
 	        else if(parts.length == 2 && parts[0].equals("message")){
 	        	String text_decryp = Encryption.decrypt(key_private ,parts[1]);
-	        	frame.addMessage("> " + text_decryp);
+	        	frame.addMessage("> Texte reçu crypté : " + parts[1]);
+	        	frame.addMessage(">  Texte reçu décrypté : " + text_decryp);
 	    	}
     	}
     }
@@ -84,6 +85,9 @@ public class SocketClient {
         try {
         	if( type.equals("message")){
         		outputStream.write((type + "|" + Encryption.encrypt(key_public_server ,text) + "\r\n").getBytes());
+            	String crypted = Encryption.encrypt(key_public, text);
+            	frame.addMessage("> Texte envoyé avant cryptage : " + text);
+            	frame.addMessage(">  Texte envoyé après cryptage : " + crypted);
         	}
         	else {
     			outputStream.write((type + "|" + text + "\r\n").getBytes());
