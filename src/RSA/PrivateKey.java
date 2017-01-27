@@ -50,7 +50,7 @@ public class PrivateKey
     	 * 		r' := rs - q*r', u' = us - q*u', v' = vs - q*v'
    		 * fait
    		 */
-		while(r.compareTo(BigInteger.valueOf(0)) != 1)
+		while(r_.toString() != "0")
 		{
 			q = r.divide(r_);
 			rs = r;
@@ -63,7 +63,7 @@ public class PrivateKey
 			u_ = us.subtract(q.multiply(u_));
 			v_ = vs.subtract(q.multiply(v_));
 		}	
-		return u.add(u);
+		return u_.add(u);
 	}
 	
 	public BigInteger getU()

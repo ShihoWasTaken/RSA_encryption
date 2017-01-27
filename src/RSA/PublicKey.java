@@ -1,9 +1,10 @@
 package RSA;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Random;
 
-public class PublicKey 
+public class PublicKey
 {
 	private BigInteger p;	
 	private BigInteger q;

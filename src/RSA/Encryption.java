@@ -48,6 +48,7 @@ public class Encryption {
         	str_encry += temp.toString() + "-";
         }
         return str_encry;
+        
 	}
 	
 	public static int CharToASCII(final char character)
@@ -78,19 +79,19 @@ public class Encryption {
 	 */
 	public static void main(String[] args)
 	{
-		/*List<Integer> list = StringToASCII("Bonjour !");
+		List<Integer> list = StringToASCII("Bonjour !");
         for(int i = 0; i < list.size(); i++) {
             System.out.println(list.get(i));
         }
         System.out.println("\n");
 		PublicKey publicKey = new PublicKey(new BigInteger("53"), new BigInteger("97"));
-		List<BigInteger> list2 = encrypt(publicKey, "Bonjour !");
-        for(int i = 0; i < list2.size(); i++) {
-            System.out.println(list2.get(i));
-        }
+		String list2 = encrypt(publicKey, "Bonjour !");
+        System.out.println("List2  " + list2);
+        
+        
 		PrivateKey privateKey = new PrivateKey(publicKey);
         String decrypted = decrypt(privateKey, list2);
-        System.out.println("Decrypted = " + decrypted);*/
+        System.out.println("Decrypted = " + decrypted);
 	}
 
 }
