@@ -3,6 +3,7 @@ package client;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.InetAddress;
 import java.net.Socket;
 
 import javax.swing.JFrame;
@@ -32,10 +33,11 @@ public class Client extends SocketClient {
             public void run() {
                 try {
                 	inputStream = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                	frame.addLog("<strong color=red>MY IP > </strong>" + InetAddress.getLocalHost());
                 	
                     String line;
                     send("keypublic", key_public.getP()+ "|" + key_public.getQ());
-                    while (true) {
+                    while (clientSocket.isConnected()) {
                     	line = inputStream.readLine();
                     	logger.info("-->" + line);
                     	receive(line);

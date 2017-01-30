@@ -3,6 +3,7 @@ package server;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import javax.swing.JFrame;
 
@@ -22,6 +23,7 @@ public class Server extends SocketClient {
      */
 	public void InitSocketServer(int port) throws IOException {
 	    serverSocket = new ServerSocket(port);
+    	frame.addLog("<strong color=red>MY IP > </strong>" + InetAddress.getLocalHost());
 	    
 	    try {
 		      clientSocket = serverSocket.accept();
@@ -31,7 +33,7 @@ public class Server extends SocketClient {
 		      
 		      String line;
               send("keypublic", key_public.getP()+ "|" + key_public.getQ());
-              while (true) {
+              while (clientSocket.isConnected()) {
             	  line = inputStream.readLine();
             	  receive(line);
               }

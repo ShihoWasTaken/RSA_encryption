@@ -5,22 +5,38 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
+import javax.swing.text.BadLocationException;
+
+import org.apache.log4j.Logger;
 
 public class ClientUI extends JFrame {
+	
+	static protected Logger logger =  Logger.getLogger(ClientUI.class);
 
 	private static final long serialVersionUID = 1L;
-	private JTextArea textArea;
+	private JEditorPane textArea;
+	private JEditorPane textArea_log;
+	private String text_textarea, text_textarealog;
     private JTextField inputTextField;
     private JButton sendButton;
     
     public void addMessage(String message){
-    	textArea.setText(textArea.getText() + "\r\n" + message);
+    		text_textarea = text_textarea + message ;
+			textArea.setText( text_textarea);
+    }
+    
+    public void addLog(String message){
+    	text_textarealog = text_textarealog + message  + "<br>";
+	    textArea_log.setText( text_textarealog);
     }
    
     public void enabledButton(){
@@ -28,34 +44,19 @@ public class ClientUI extends JFrame {
     }
     
 	public ClientUI(final SocketClient client, String title) {
-        setTitle(title);
-        setSize(450, 300);
+		//Init Variable 
+		text_textarea = text_textarealog = "";
+		
+		setTitle(title);
+        setSize(650, 500);
         
         JPanel totalGUI = new JPanel();
         totalGUI.setLayout(null);
         
-        
-        JPanel panel = new JPanel();
-        panel.setLayout(null);
-        panel.setLocation(0, 0);
-        panel.setSize(450, 150);
-        totalGUI.add(panel);
-        
-        /* textarea */
-        textArea = new JTextArea();
-        textArea.setLocation(12, 12);
-        textArea.setEnabled(false);
-        textArea.setSize(426, 126);
-        textArea.setForeground(Color.WHITE);
-        textArea.setBackground(Color.DARK_GRAY);
-        panel.add(textArea);
-        
-        
-        
         JPanel panel2 = new JPanel();
         panel2.setLayout(null);
-        panel2.setLocation(0, 162);
-        panel2.setSize(450, 120);
+        panel2.setLocation(0, 328);
+        panel2.setSize(650, 160);
         panel2.setBorder(new TitledBorder(null, "Envoyer message"));
         totalGUI.add(panel2);
 
@@ -66,13 +67,13 @@ public class ClientUI extends JFrame {
         
         inputTextField = new JTextField();
         inputTextField.setLocation(188, 34);
-        inputTextField.setSize(250, 34);
+        inputTextField.setSize(450, 34);
         
         panel2.add(comboLbl2);
         panel2.add(inputTextField);
         
         sendButton = new JButton("Envoyer");
-        sendButton.setBounds(172, 79, 117, 25);
+        sendButton.setBounds(250, 120, 150, 25);
         sendButton.setEnabled(false);
         
         //Action for the inputTextField and the goButton
@@ -92,6 +93,43 @@ public class ClientUI extends JFrame {
 
 
         panel2.add(sendButton);
+        
+        getContentPane().add(totalGUI);
+        
+        JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+        tabbedPane.setBounds(0, 0, 650, 310);
+        totalGUI.add(tabbedPane);
+        
+        
+        JPanel panel = new JPanel();
+        tabbedPane.addTab("Message", null, panel, null);
+        panel.setLayout(null);
+        textArea = new JEditorPane();
+        textArea.setContentType("text/html");
+        textArea.setLocation(12, 12);
+        textArea.setEditable(false);
+        textArea.setSize(626, 271);
+        textArea.setForeground(Color.WHITE);
+        textArea.setBackground( Color.decode("0x263544"));
+        JScrollPane scroll = new JScrollPane (textArea, 
+        JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		add(scroll);
+        panel.add(textArea);
+
+        JPanel panel3 = new JPanel();
+        tabbedPane.addTab("Log", null, panel3, null);
+        panel3.setLayout(null);
+        textArea_log = new JEditorPane();
+        textArea_log.setContentType("text/html");
+        textArea_log.setLocation(12, 12);
+        textArea_log.setEditable(false);
+        textArea_log.setSize(626, 271);
+        textArea_log.setBackground(Color.WHITE);
+        JScrollPane scroll2 = new JScrollPane (textArea_log, 
+        JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		add(scroll2);
+        panel3.add(textArea_log);
+        
         
         add(totalGUI);
 	}
