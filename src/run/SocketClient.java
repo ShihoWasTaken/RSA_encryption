@@ -70,7 +70,7 @@ public class SocketClient {
 	        // add message
 	        else if(parts.length == 2 && parts[0].equals("message")){
 	        	String text_decryp = Encryption.decrypt(key_private ,parts[1]);
-	        	
+
 	        	// LOG
 	        	frame.addMessage("<div style='text-align:right;color: white;background-color:#82B6EA;padding:5px;'>" + text_decryp + "</div>");
 	        	frame.addLog("<strong color=green>RECEIVE MESSAGE (crypt) > </strong>" + parts[1]);
@@ -96,6 +96,7 @@ public class SocketClient {
             	frame.addMessage("<div style='background-color:#507191;color: white;padding:5px;'>" + text + "</div>");
             	frame.addLog("<strong color=red>SEND MESSAGE (decrypt) > </strong>" + text);
         		frame.addLog("<strong color=red>SEND MESSAGE (crypt) > </strong>" + text_encrypt);
+
         	}
         	else {
     			outputStream.write((type + "|" + text + "\r\n").getBytes());
