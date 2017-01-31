@@ -1,8 +1,12 @@
 package client;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 
@@ -11,8 +15,9 @@ import javax.swing.JFrame;
 
 import RSA.PrivateKey;
 import RSA.PublicKey;
-import run.ClientUI;
-import run.SocketClient;
+import communication.InterfaceUI;
+import communication.Message;
+import communication.SocketClient;
 
 public class Client extends SocketClient {
 	
@@ -26,24 +31,24 @@ public class Client extends SocketClient {
      */
 	public void InitSocketClient(String server, int port) throws IOException {
 		clientSocket 	= new Socket(server, port);
-        outputStream 	= clientSocket.getOutputStream();
+        outputStream 	= new ObjectOutputStream(clientSocket.getOutputStream());
+    	inputStream 	= new ObjectInputStream(new BufferedInputStream(clientSocket.getInputStream()));
 
         Thread myThread = new Thread() {
             @Override
             public void run() {
                 try {
-                	inputStream = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                 	frame.addLog("<strong color=red>MY IP > </strong>" + InetAddress.getLocalHost());
                 	
-                    String line;
-                    send("keypublic", key_public.getP()+ "|" + key_public.getQ());
+                	Message line;
+                    send(key_public);
                     while (clientSocket.isConnected()) {
-                    	line = inputStream.readLine();
-                    	logger.info("-->" + line);
+                    	line = (Message) inputStream.readObject();
                     	receive(line);
                     }
-                } catch (IOException ex) {
+                } catch (Exception ex) {
                 	logger.error(ex);
+        			ex.printStackTrace();
                 }
             }
         };
@@ -61,7 +66,7 @@ public class Client extends SocketClient {
         this.key_private	= new PrivateKey(this.key_public);
         
         // Init UI
-        frame = new ClientUI(this, "Client");
+        frame = new InterfaceUI(this, "Client");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);

@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import run.SocketClient;
+import communication.SocketClient;
 
 public class Encryption {
 
@@ -17,10 +17,11 @@ public class Encryption {
 	{
 		List<BigInteger> newList 	= new ArrayList<BigInteger>();
 		String[] tabCrypted 		= cryptedMessage.split("-");
-		
+				
         for(int i = 0; i < tabCrypted.length; i++)
         {
         	if(!tabCrypted[i].equals("-") && tabCrypted[i] != null){
+        		//TODO: erreur si c'est autre que des INT
         		BigInteger letter = new BigInteger(tabCrypted[i]);
 	        	BigInteger temp = letter.modPow(privateKey.getU(),  privateKey.getPublicKey().getN());
 	        	newList.add(temp);
@@ -84,10 +85,9 @@ public class Encryption {
             System.out.println(list.get(i));
         }
         System.out.println("\n");
-		PublicKey publicKey = new PublicKey(new BigInteger("53"), new BigInteger("97"));
+		PublicKey publicKey = new PublicKey();
 		String list2 = encrypt(publicKey, "Bonjour !");
         System.out.println("List2  " + list2);
-        
         
 		PrivateKey privateKey = new PrivateKey(publicKey);
         String decrypted = decrypt(privateKey, list2);

@@ -1,4 +1,4 @@
-package run;
+package communication;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -18,9 +18,9 @@ import javax.swing.text.BadLocationException;
 
 import org.apache.log4j.Logger;
 
-public class ClientUI extends JFrame {
+public class InterfaceUI extends JFrame {
 	
-	static protected Logger logger =  Logger.getLogger(ClientUI.class);
+	static protected Logger logger =  Logger.getLogger(InterfaceUI.class);
 
 	private static final long serialVersionUID = 1L;
 	private JEditorPane textArea;
@@ -43,7 +43,7 @@ public class ClientUI extends JFrame {
     	sendButton.setEnabled(true);
     }
     
-	public ClientUI(final SocketClient client, String title) {
+	public InterfaceUI(final SocketClient client, String title) {
 		//Init Variable 
 		text_textarea = text_textarealog = "";
 		
@@ -81,7 +81,7 @@ public class ClientUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String str = inputTextField.getText();
                 if (str != null && str.trim().length() > 0)
-                	client.send("message", str);
+                	client.send(str);
                 
                 inputTextField.selectAll();
                 inputTextField.requestFocus();

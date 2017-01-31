@@ -1,16 +1,21 @@
 package server;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import javax.swing.JFrame;
 
 import RSA.PrivateKey;
 import RSA.PublicKey;
-import run.ClientUI;
-import run.SocketClient;
+import communication.InterfaceUI;
+import communication.Message;
+import communication.SocketClient;
 
 public class Server extends SocketClient {
 	
@@ -28,18 +33,19 @@ public class Server extends SocketClient {
 	    try {
 		      clientSocket = serverSocket.accept();
 		 
-		      outputStream 	= clientSocket.getOutputStream();
-		      inputStream 	= new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+
+		      outputStream 	= new ObjectOutputStream(clientSocket.getOutputStream());
+		      inputStream 	= new ObjectInputStream(new BufferedInputStream(clientSocket.getInputStream()));
 		      
-		      String line;
-              send("keypublic", key_public.getP()+ "|" + key_public.getQ());
+		      Message line;
+              send(key_public);
               while (clientSocket.isConnected()) {
-            	  line = inputStream.readLine();
+            	  line = (Message) inputStream.readObject();
             	  receive(line);
               }
 		     
 	    } catch(Exception e) {
-			logger.error("Error A > " + e.getMessage());
+			logger.error("Error A > " + e);
 			e.printStackTrace();
 	    }
 	    
@@ -55,7 +61,7 @@ public class Server extends SocketClient {
         this.key_private	= new PrivateKey(this.key_public);
         
         // Init UI
-        frame = new ClientUI(this, "Server");
+        frame = new InterfaceUI(this, "Server");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
