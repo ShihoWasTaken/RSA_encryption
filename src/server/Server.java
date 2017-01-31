@@ -1,13 +1,9 @@
 package server;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.SocketException;
 
@@ -26,18 +22,18 @@ public class Server extends SocketClient {
 	    try
 	    {
 		      clientSocket = serverSocket.accept();
-		 
-
+		      
 		      outputStream 	= new ObjectOutputStream(clientSocket.getOutputStream());
 		      inputStream 	= new ObjectInputStream(new BufferedInputStream(clientSocket.getInputStream()));
 		      
 		      Message line;
-            send(key_public);
-            while (clientSocket.isConnected()) {
-          	  line = (Message) inputStream.readObject();
-          	  receive(line);
-            }
-		     
+              send(key_public);
+              while (clientSocket.isConnected()) {
+            	  line = (Message) inputStream.readObject();
+            	  if( line != null ){
+            		  receive(line);
+            	  }
+              }
 	    }
 	    catch(SocketException e)
 	    {
