@@ -28,7 +28,7 @@ public class Server extends SocketClient {
      */
 	public void InitSocketServer(int port) throws IOException {
 	    serverSocket = new ServerSocket(port);
-    	frame.addLog("<div><strong color=red>MY IP > </strong>" + InetAddress.getLoopbackAddress() + "</div>");
+    	frame.addLog("<div><strong color=red>MY IP > </strong>" + myIpNetwork() + "</div>");
 	    
 	    try {
 		      clientSocket = serverSocket.accept();
