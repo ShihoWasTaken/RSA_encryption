@@ -77,7 +77,8 @@ public class IPTools
 	
 	public static void main(String[] args)
 	{
-		getAllServersAvailable();
+		//getAllServersAvailable();
+		isServerOnline("localhost", 2222);
 	}
 
 }

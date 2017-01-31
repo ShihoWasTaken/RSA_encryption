@@ -9,6 +9,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
+import java.net.SocketException;
+
 import javax.swing.JFrame;
 
 import RSA.PrivateKey;
@@ -18,6 +20,35 @@ import communication.Message;
 import communication.SocketClient;
 
 public class Server extends SocketClient {
+	
+	public void launch()
+	{
+	    try
+	    {
+		      clientSocket = serverSocket.accept();
+		 
+
+		      outputStream 	= new ObjectOutputStream(clientSocket.getOutputStream());
+		      inputStream 	= new ObjectInputStream(new BufferedInputStream(clientSocket.getInputStream()));
+		      
+		      Message line;
+            send(key_public);
+            while (clientSocket.isConnected()) {
+          	  line = (Message) inputStream.readObject();
+          	  receive(line);
+            }
+		     
+	    }
+	    catch(SocketException e)
+	    {
+	    	launch();
+	    }
+	    catch(Exception e) {
+	    	System.out.println(e.getMessage());
+			logger.error("Error A > " + e);
+			e.printStackTrace();
+	    }
+	}
 	
 	/**
      * Initialisation du socket 
@@ -30,24 +61,7 @@ public class Server extends SocketClient {
 	    serverSocket = new ServerSocket(port);
     	frame.addLog("<div><strong color=red>MY IP > </strong>" + myIpNetwork() + "</div>");
 	    
-	    try {
-		      clientSocket = serverSocket.accept();
-		 
-
-		      outputStream 	= new ObjectOutputStream(clientSocket.getOutputStream());
-		      inputStream 	= new ObjectInputStream(new BufferedInputStream(clientSocket.getInputStream()));
-		      
-		      Message line;
-              send(key_public);
-              while (clientSocket.isConnected()) {
-            	  line = (Message) inputStream.readObject();
-            	  receive(line);
-              }
-		     
-	    } catch(Exception e) {
-			logger.error("Error A > " + e);
-			e.printStackTrace();
-	    }
+    	launch();
 	    
     }
 	  
