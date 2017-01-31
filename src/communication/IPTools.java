@@ -8,6 +8,8 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class IPTools 
 {
@@ -35,10 +37,9 @@ public class IPTools
 		return exists;
 	}
 	
-	
-	public static void main(String[] args)
+	public static List<String> getAllServersAvailable()
 	{
-		
+		List<String> servers = new ArrayList<String>();
         try
         {
             Runtime rt = Runtime.getRuntime();
@@ -56,6 +57,7 @@ public class IPTools
                 boolean isOnline = isServerOnline(IPAddress, PORT);
                 if(isOnline)
                 {
+                	servers.add(IPAddress);
                 	System.out.println(IPAddress + "'s server is online");
                 }
                 else
@@ -63,21 +65,19 @@ public class IPTools
                 	System.out.println(IPAddress + "'s server is offline");
                 }
             }
-
-            /*
-            int exitVal = pr.waitFor();
-            System.out.println("Exited with error code "+exitVal);
-            */
-
         }
         catch(Exception e)
         {
             System.out.println(e.toString());
             e.printStackTrace();
         }
-        
-
-        
+		return servers;
+	}
+	
+	
+	public static void main(String[] args)
+	{
+		getAllServersAvailable();
 	}
 
 }
