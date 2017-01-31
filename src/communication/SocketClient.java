@@ -63,7 +63,7 @@ public class SocketClient {
 	        // Add Key Public 
 	        if(message.getType().equals(TypeAction.public_key)){
 	        	key_public_server = message.getKey();
-	        	frame.addLog("<strong color=green>RECEIVE KEY PUBLIC > </strong>" + key_public_server.toString());
+	        	frame.addLog("<div><strong color=green>RECEIVE KEY PUBLIC > </strong>" + key_public_server.toString()+ "</div>");
 	        	frame.enabledButton();
 	    	}
 	        // add message
@@ -107,7 +107,6 @@ public class SocketClient {
         	frame.addLog("<strong color=red>SEND MESSAGE (decrypt) > </strong>" + text);
     		frame.addLog("<strong color=red>SEND MESSAGE (crypt) > </strong>" + text_encrypt);
 
-        
 	        outputStream.flush();
 	        
 		} catch (IOException e) {

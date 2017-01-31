@@ -38,7 +38,7 @@ public class Client extends SocketClient {
             @Override
             public void run() {
                 try {
-                	frame.addLog("<strong color=red>MY IP > </strong>" + InetAddress.getLocalHost());
+                	frame.addLog("<div><strong color=red>MY IP > </strong>" + InetAddress.getLoopbackAddress() + "</div>");
                 	
                 	Message line;
                     send(key_public);
