@@ -63,7 +63,7 @@ public class SocketClient {
 	        // Add Key Public 
 	        if(message.getType().equals(TypeAction.public_key)){
 	        	key_public_server = message.getKey();
-	        	frame.addLog("<strong color=green>RECEIVE KEY PUBLIC > </strong>" + key_public_server.toString());
+	        	frame.addLog("<div><strong color=green>RECEIVE KEY PUBLIC > </strong>" + key_public_server.toString()+ "</div>");
 	        	frame.enabledButton();
 	    	}
 	        // add message
@@ -72,8 +72,8 @@ public class SocketClient {
 
 	        	// LOG
 	        	frame.addMessage("<div style='text-align:right;color: white;background-color:#82B6EA;padding:5px;'>" + text_decryp + "</div>");
-	        	frame.addLog("<strong color=green>RECEIVE MESSAGE (crypt) > </strong>" + message.getMessage());
-	        	frame.addLog("<strong color=green>RECEIVE MESSAGE (decrypt) > </strong>" + text_decryp);
+	        	frame.addLog("<div><strong color=green>RECEIVE MESSAGE (crypt) > </strong>" + message.getMessage() + "</div>"
+	        			+ "<div><strong color=green>RECEIVE MESSAGE (decrypt) > </strong>" + text_decryp + "</div>");
 	    	}
     	}
     }
@@ -92,8 +92,8 @@ public class SocketClient {
     		
     		// LOG
         	frame.addMessage("<div style='background-color:#507191;color: white;padding:5px;'>" + text + "</div>");
-        	frame.addLog("<strong color=red>SEND MESSAGE (decrypt) > </strong>" + text);
-    		frame.addLog("<strong color=red>SEND MESSAGE (crypt) > </strong>" + text_encrypt);
+        	frame.addLog("<div><strong color=red>SEND MESSAGE (decrypt) > </strong>" + text + "</div>"
+        			+ "<div><strong color=red>SEND MESSAGE (crypt) > </strong>" + text_encrypt + "</div>");
 
         
 	        outputStream.flush();
