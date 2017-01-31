@@ -32,8 +32,7 @@ public class Server extends SocketClient {
 	    
 	    try {
 		      clientSocket = serverSocket.accept();
-		 
-
+		      
 		      outputStream 	= new ObjectOutputStream(clientSocket.getOutputStream());
 		      inputStream 	= new ObjectInputStream(new BufferedInputStream(clientSocket.getInputStream()));
 		      
@@ -41,7 +40,9 @@ public class Server extends SocketClient {
               send(key_public);
               while (clientSocket.isConnected()) {
             	  line = (Message) inputStream.readObject();
-            	  receive(line);
+            	  if( line != null ){
+            		  receive(line);
+            	  }
               }
 		     
 	    } catch(Exception e) {
