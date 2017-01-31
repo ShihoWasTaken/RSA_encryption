@@ -43,6 +43,7 @@ public class IPTools
         try
         {
             Runtime rt = Runtime.getRuntime();
+            Process pr_nmap = rt.exec("nmap -sP");
             Process pr = rt.exec("arp -a");
 
             BufferedReader input = new BufferedReader(new InputStreamReader(pr.getInputStream()));
@@ -64,6 +65,18 @@ public class IPTools
                 {
                 	System.out.println(IPAddress + "'s server is offline");
                 }
+            }
+            // Test de localhost
+            String IPAddress = "localhost";
+            boolean isOnline = isServerOnline(IPAddress, PORT);
+            if(isOnline)
+            {
+            	servers.add(IPAddress);
+            	System.out.println(IPAddress + "'s server is online");
+            }
+            else
+            {
+            	System.out.println(IPAddress + "'s server is offline");
             }
         }
         catch(Exception e)

@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class PublicKey implements Serializable
 {
-	final static int BITS = 128;
+	final static int BITS = 256;
 	
 	private BigInteger p;	
 	private BigInteger q;
