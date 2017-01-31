@@ -35,16 +35,14 @@ public class runService {
 		}
 		else
 		{
-			List<String> servers = new ArrayList<String>();
-			servers.add("localhost");
-			//List<String> servers = IPTools.getAllServersAvailable();
+			List<String> servers = IPTools.getAllServersAvailable();
 			// Si aucun serveur n'a été trouvé
-			//if(servers.size() == 0)
+			if(servers.size() == 0)
 			{
-				//JOptionPane.showMessageDialog(null, "Impossible de trouver des serveurs disponibles", "Erreur", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Impossible de trouver des serveurs disponibles", "Erreur", JOptionPane.ERROR_MESSAGE);
 			}
 			// Si au moins un serveur a été trouvé
-			//else
+			else
 			{
 				
 			    String IPServer = (String) JOptionPane.showInputDialog(null, 
@@ -57,8 +55,7 @@ public class runService {
 			    System.out.println(IPServer);
 			    
 			        // IPServer will be null if the user clicks Cancel
-				//String IPServer = JOptionPane.showInputDialog(null, "Entre l'adresse IP du serveur : ", "Info Serveur", JOptionPane.QUESTION_MESSAGE);
-	            String[] arguments = new String[] {IPServer};
+				String[] arguments = new String[] {IPServer};
 				new Client().main(arguments);
 			}
 		}
