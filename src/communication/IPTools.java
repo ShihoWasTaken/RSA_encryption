@@ -77,8 +77,9 @@ public class IPTools
 	
 	public static void main(String[] args)
 	{
-		//getAllServersAvailable();
-		isServerOnline("localhost", 2222);
+		getAllServersAvailable();
+		boolean locahost = isServerOnline("localhost", 2222);
+		System.out.println("localhost online ? =  " + locahost);
 	}
 
 }

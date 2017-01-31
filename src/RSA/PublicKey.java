@@ -6,6 +6,8 @@ import java.util.Random;
 
 public class PublicKey implements Serializable
 {
+	final static int BITS = 128;
+	
 	private BigInteger p;	
 	private BigInteger q;
 	private BigInteger m = null;
@@ -14,11 +16,11 @@ public class PublicKey implements Serializable
 	public PublicKey()
 	{
 		Random rand = new Random();		
-		this.p = BigInteger.probablePrime(32, rand);
-		this.q = BigInteger.probablePrime(32, rand);
+		this.p = BigInteger.probablePrime(BITS, rand);
+		this.q = BigInteger.probablePrime(BITS, rand);
 		while(this.q.equals(this.p))
 		{
-			this.q = BigInteger.probablePrime(32, rand);
+			this.q = BigInteger.probablePrime(BITS, rand);
 		}
 	}
 	
