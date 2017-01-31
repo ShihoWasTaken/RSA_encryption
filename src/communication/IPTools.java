@@ -11,23 +11,72 @@ import java.net.UnknownHostException;
 
 public class IPTools 
 {
-	public static void main(String[] args)
+	final static int PORT = 2222;
+	final static int TIMEOUT = 1000;
+	
+	public static boolean isServerOnline(String host, int port)
 	{
 		boolean exists = false;
 
-		try {
-		    SocketAddress sockaddr = new InetSocketAddress("192.168.43.178", 2222);
+		try
+		{
+		    SocketAddress sockaddr = new InetSocketAddress(host, port);
 		    // Create an unbound socket
 		    Socket sock = new Socket();
 
 		    // This method will block no more than timeoutMs.
 		    // If the timeout occurs, SocketTimeoutException is thrown.
-		    int timeoutMs = 2000;   // 2 seconds
-		    sock.connect(sockaddr, timeoutMs);
+		    sock.connect(sockaddr, TIMEOUT);
 		    exists = true;
-		}catch(Exception e){
 		}
-		System.out.println(exists);
+		catch(Exception e)
+		{
+		}
+		return exists;
+	}
+	
+	
+	public static void main(String[] args)
+	{
+		
+        try
+        {
+            Runtime rt = Runtime.getRuntime();
+            Process pr = rt.exec("arp -a");
+
+            BufferedReader input = new BufferedReader(new InputStreamReader(pr.getInputStream()));
+
+            String line=null;
+
+            while((line=input.readLine()) != null)
+            {
+                int parantheseOuvrante = line.indexOf('(');
+                int parantheseFermante = line.indexOf(')');
+                String IPAddress = line.substring(parantheseOuvrante + 1, parantheseFermante);
+                boolean isOnline = isServerOnline(IPAddress, PORT);
+                if(isOnline)
+                {
+                	System.out.println(IPAddress + "'s server is online");
+                }
+                else
+                {
+                	System.out.println(IPAddress + "'s server is offline");
+                }
+            }
+
+            /*
+            int exitVal = pr.waitFor();
+            System.out.println("Exited with error code "+exitVal);
+            */
+
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.toString());
+            e.printStackTrace();
+        }
+        
+
         
 	}
 
