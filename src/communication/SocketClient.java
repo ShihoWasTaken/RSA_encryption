@@ -71,7 +71,13 @@ public class SocketClient {
 	        	String text_decryp = Encryption.decrypt(key_private , message.getMessage());
 
 	        	// LOG
-	        	frame.addMessage("<div style='text-align:right;color: white;background-color:#82B6EA;padding:5px;'>" + text_decryp + "</div>");
+    			String nomDuClient = "";
+	    		if(serverSocket == null)
+	    			nomDuClient = "Bob";
+	    		else
+	    			nomDuClient = "Alice";
+	    		frame.addMessage("<div>" + nomDuClient + "</div>");
+	        	frame.addMessage("<div style='font-family:\"Roboto\";text-align:left;color: black;background-color:#D8D8D8;padding:5px;margin:5px;border-radius:10px;'>" + text_decryp + "</div>");
 	        	frame.addLog("<strong color=green>RECEIVE MESSAGE (crypt) > </strong>" + message.getMessage());
 	        	frame.addLog("<strong color=green>RECEIVE MESSAGE (decrypt) > </strong>" + text_decryp);
 	    	}
@@ -91,7 +97,13 @@ public class SocketClient {
     		outputStream.writeObject(new Message(TypeAction.message, text_encrypt, null));
     		
     		// LOG
-        	frame.addMessage("<div style='background-color:#507191;color: white;padding:5px;'>" + text + "</div>");
+    			String nomDuClient = "";
+    		if(serverSocket == null)
+    			nomDuClient = "Alice";
+    		else
+    			nomDuClient = "Bob";
+    		frame.addMessage("<div>" + nomDuClient + "</div>");
+        	frame.addMessage("<div style='font-family:\"Roboto\";text-align:right;background-color:#0033FF;color: white;padding:5px;margin:5px;border-radius:10px;'>" + text + "</div>");
         	frame.addLog("<strong color=red>SEND MESSAGE (decrypt) > </strong>" + text);
     		frame.addLog("<strong color=red>SEND MESSAGE (crypt) > </strong>" + text_encrypt);
 

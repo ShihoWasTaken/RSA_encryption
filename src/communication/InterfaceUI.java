@@ -110,7 +110,7 @@ public class InterfaceUI extends JFrame {
         textArea.setEditable(false);
         textArea.setSize(626, 271);
         textArea.setForeground(Color.WHITE);
-        textArea.setBackground( Color.decode("0x263544"));
+        textArea.setBackground(Color.WHITE);
         JScrollPane scroll = new JScrollPane (textArea, 
         JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		add(scroll);

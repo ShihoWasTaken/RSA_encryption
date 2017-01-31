@@ -66,7 +66,7 @@ public class Client extends SocketClient {
         this.key_private	= new PrivateKey(this.key_public);
         
         // Init UI
-        frame = new InterfaceUI(this, "Client");
+        frame = new InterfaceUI(this, name);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
