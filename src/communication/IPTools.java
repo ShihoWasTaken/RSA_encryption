@@ -29,6 +29,7 @@ public class IPTools
 		    // This method will block no more than timeoutMs.
 		    // If the timeout occurs, SocketTimeoutException is thrown.
 		    sock.connect(sockaddr, TIMEOUT);
+		    sock.close();
 		    exists = true;
 		}
 		catch(Exception e)

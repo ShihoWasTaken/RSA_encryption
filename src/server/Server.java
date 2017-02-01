@@ -17,72 +17,74 @@ import communication.SocketClient;
 
 public class Server extends SocketClient {
 	
-	public void launch()
-	{
-	    try
-	    {
-		      clientSocket = serverSocket.accept();
-		      
-		      outputStream 	= new ObjectOutputStream(clientSocket.getOutputStream());
-		      inputStream 	= new ObjectInputStream(new BufferedInputStream(clientSocket.getInputStream()));
-		      
-		      Message line;
-              send(key_public);
-              while (clientSocket.isConnected()) {
-            	  line = (Message) inputStream.readObject();
-            	  if( line != null ){
-            		  receive(line);
-            	  }
-              }
-	    }
-	    catch(SocketException e)
-	    {
-	    	launch();
-	    }
-	    catch(Exception e) {
-	    	System.out.println(e.getMessage());
-			logger.error("Error A > " + e);
-			e.printStackTrace();
-	    }
-	}
+	public static int nbClient = 0;	
 	
 	/**
-     * Initialisation du socket 
-     * 
-     * @param server
-     * @param port
-     * @throws IOException
-     */
-	public void InitSocketServer(int port) throws IOException {
-	    serverSocket = new ServerSocket(port);
-    	frame.addLog("<div><strong color=red>MY IP > </strong>" + myIpNetwork() + "</div>");
-	    
-    	launch();
-	    
-    }
-	  
-	  
+	 * Initialisation du socket
+	 * 
+	 * @param server
+	 * @param port
+	 * @throws IOException
+	 */
+	public void InitSocketServer(int port) {
+		try{
+			serverSocket = new ServerSocket(port);
+			frame.addLog("<div><strong color=red>MY IP > </strong>" + myIpNetwork() + "</div>");
+	
+			while (true) {
+				clientSocket = serverSocket.accept();
+				nbClient++;
+				
+				//MAX NB CLIENT = 1
+				if( nbClient < 1 ){
+					try{
+						outputStream = new ObjectOutputStream(clientSocket.getOutputStream());
+						inputStream = new ObjectInputStream(new BufferedInputStream(clientSocket.getInputStream()));
+						Message line;
+						send(key_public);
+						while (clientSocket.isConnected()) {
+							line = (Message) inputStream.readObject();
+							if (line != null) {
+								receive(line);
+							}
+						}
+	
+						outputStream.close();
+						inputStream.close();
+					}
+					catch(IOException e){
+						logger.info("Disconnect");
+					}
+				}
+				clientSocket.close();
+				nbClient--;
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+
 	public void main(String args[]) {
-		
-		name				= "Server";
-		
+
+		name = "Server";
+
 		// Create key
-        this.key_public		= new PublicKey();
-        this.key_private	= new PrivateKey(this.key_public);
-        
-        // Init UI
-        frame = new InterfaceUI(this, name);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
-        frame.setResizable(false);
-        frame.setVisible(true); 
-        
+		this.key_public = new PublicKey();
+		this.key_private = new PrivateKey(this.key_public);
+
+		// Init UI
+		frame = new InterfaceUI(this, name);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setLocationRelativeTo(null);
+		frame.setResizable(false);
+		frame.setVisible(true);
+
 		try {
 			InitSocketServer(port);
-        } catch (IOException ex) {
+		} catch (Exception ex) {
 			logger.error("Error > " + ex);
-            ex.printStackTrace();
-            System.exit(0);
-        }
-	} 
+			ex.printStackTrace();
+		}
+	}
 }
