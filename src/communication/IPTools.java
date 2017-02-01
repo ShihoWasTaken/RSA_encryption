@@ -11,6 +11,8 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 public class IPTools 
 {
 	final static int PORT = 2222;
@@ -80,10 +82,10 @@ public class IPTools
             	System.out.println(IPAddress + "'s server is offline");
             }
         }
-        catch(Exception e)
+        catch(IOException e)
         {
-            System.out.println(e.toString());
-            e.printStackTrace();
+        	JOptionPane.showMessageDialog(null, "Le programme nmap doit être installé sur la machine du client", "Erreur", JOptionPane.ERROR_MESSAGE);
+        	System.exit(-1);
         }
 		return servers;
 	}
