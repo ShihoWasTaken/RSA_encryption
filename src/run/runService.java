@@ -28,7 +28,7 @@ public class runService {
 		logger.info("->> " + selection);
 		
 		// Lancement du serveur ou du client
-		if(selection.equals("Alice (Server)"))
+		if(selection != null && selection.equals("Alice (Server)"))
 		{
             String[] arguments = new String[] {};
 			new Server().main(arguments);
@@ -54,9 +54,12 @@ public class runService {
 			            servers.toArray()[0]);
 			    System.out.println(IPServer);
 			    
-			        // IPServer will be null if the user clicks Cancel
-				String[] arguments = new String[] {IPServer};
-				new Client().main(arguments);
+			    // If cancel 
+			    if( IPServer != null){
+				    // IPServer will be null if the user clicks Cancel
+					String[] arguments = new String[] {IPServer};
+					new Client().main(arguments);
+			    }
 			}
 		}
 	}

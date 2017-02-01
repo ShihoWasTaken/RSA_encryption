@@ -50,7 +50,7 @@ public class SocketClient {
 	// public key other client
 	protected PublicKey key_public_server;
 	
-	// The client socket.
+	// Port socket.
 	protected final int port = 2222;
     
     

@@ -69,7 +69,7 @@ public class Client extends SocketClient {
         frame.setVisible(true); 
         
         try {
-            InitSocketClient(server,port);
+            InitSocketClient(server, port);
         } catch (IOException ex) {
         	logger.error("Cannot connect to " + server + ":" + port);
             ex.printStackTrace();
