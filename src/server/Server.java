@@ -36,7 +36,7 @@ public class Server extends SocketClient {
 				nbClient++;
 				
 				//MAX NB CLIENT = 1
-				if( nbClient < 1 ){
+				if( nbClient <= 1 ){
 					try{
 						outputStream = new ObjectOutputStream(clientSocket.getOutputStream());
 						inputStream = new ObjectInputStream(new BufferedInputStream(clientSocket.getInputStream()));
