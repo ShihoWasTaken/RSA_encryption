@@ -11,7 +11,10 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 
 public class IPTools 
 {
@@ -47,7 +50,21 @@ public class IPTools
         {
             Runtime rt = Runtime.getRuntime();
             
-            String[] cmd = {"/bin/bash","-c","echo ce1mdpp | sudo -S arp-scan -l"};
+            JPanel panel = new JPanel();
+            JLabel label = new JLabel("Enter a password:");
+            JPasswordField pass = new JPasswordField(10);
+            panel.add(label);
+            panel.add(pass);
+            String[] options = new String[]{"Cancel", "Ok"};
+            int option = JOptionPane.showOptionDialog(null, panel, "Entrez votre mot de passe pour lancer un `sudo arp-scan`",
+                                     JOptionPane.NO_OPTION, JOptionPane.PLAIN_MESSAGE,
+                                     null, options, options[1]);
+            if(option == 1) // pressing OK button
+            {
+                char[] password = pass.getPassword();
+                String pass2 = new String(password);
+            
+            String[] cmd = {"/bin/bash","-c","echo " + pass2 + " | sudo -S arp-scan -l"};
             Process arp_scan = Runtime.getRuntime().exec(cmd);
             //Process arp_scan = rt.exec("");
             arp_scan.waitFor();
@@ -87,6 +104,7 @@ public class IPTools
             else
             {
             	System.out.println(IPAddress + "'s server is offline");
+            }
             }
         }
         catch(IOException e)
