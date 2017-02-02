@@ -47,48 +47,34 @@ public class IPTools
         {
             Runtime rt = Runtime.getRuntime();
             
-            // On récupère le sous réseau à scanner
-            Process first_arp = rt.exec("arp -a");
-            first_arp.waitFor();
-            String IPAddress_sub_with_star = null;
-            BufferedReader input_first = new BufferedReader(new InputStreamReader(first_arp.getInputStream()));
-
-            String line_first = input_first.readLine();
-            boolean first_line_passed = false;
-            while(!first_line_passed)
-            {
-                int parantheseOuvrante = line_first.indexOf('(');
-                int parantheseFermante = line_first.indexOf(')');
-                String IPAddress_full = line_first.substring(parantheseOuvrante + 1, parantheseFermante);
-                
-                int lastDot = IPAddress_full.lastIndexOf('.');
-                IPAddress_sub_with_star = IPAddress_full.substring(0, lastDot + 1) + "*";
-                first_line_passed = true;
-            }
-            
-            Process pr_nmap = rt.exec("nmap -sP " + IPAddress_sub_with_star);
-            pr_nmap.waitFor();
-            Process second_arp = rt.exec("arp -a");
-            second_arp.waitFor();
-            BufferedReader input = new BufferedReader(new InputStreamReader(second_arp.getInputStream()));
+            String[] cmd = {"/bin/bash","-c","echo ce1mdpp | sudo -S arp-scan -l"};
+            Process arp_scan = Runtime.getRuntime().exec(cmd);
+            //Process arp_scan = rt.exec("");
+            arp_scan.waitFor();
+            BufferedReader input = new BufferedReader(new InputStreamReader(arp_scan.getInputStream()));
 
             String line=null;
 
             while((line=input.readLine()) != null)
             {
-                int parantheseOuvrante = line.indexOf('(');
-                int parantheseFermante = line.indexOf(')');
-                String IPAddress = line.substring(parantheseOuvrante + 1, parantheseFermante);
-                boolean isOnline = isServerOnline(IPAddress, PORT);
-                if(isOnline)
-                {
-                	servers.add(IPAddress);
-                	System.out.println(IPAddress + "'s server is online");
-                }
-                else
-                {
-                	System.out.println(IPAddress + "'s server is offline");
-                }
+            	int tab = line.indexOf('\t');
+            	if(tab != -1)
+            	{
+                    String IPAddress = line.substring(0, tab);
+                	if(line.startsWith("192"))
+                	{
+                        boolean isOnline = isServerOnline(IPAddress, PORT);
+                        if(isOnline)
+                        {
+                        	servers.add(IPAddress);
+                        	System.out.println(IPAddress + "'s server is online");
+                        }
+                        else
+                        {
+                        	System.out.println(IPAddress + "'s server is offline");
+                        }
+                	}
+            	}
             }
             // Test de localhost
             String IPAddress = "localhost";
@@ -105,7 +91,7 @@ public class IPTools
         }
         catch(IOException e)
         {
-        	JOptionPane.showMessageDialog(null, "Le programme nmap doit être installé sur la machine du client", "Erreur", JOptionPane.ERROR_MESSAGE);
+        	JOptionPane.showMessageDialog(null, "Les programmes arp-scan et gksu doivent être installés sur la machine du client", "Erreur", JOptionPane.ERROR_MESSAGE);
         	System.exit(-1);
         } catch (InterruptedException e) {
 			// TODO Auto-generated catch block
