@@ -66,7 +66,7 @@ public class SocketClient {
 	        // Add Key Public 
 	        if(message.getType().equals(TypeAction.public_key)){
 	        	key_public_server = message.getKey();
-	        	frame.addLog("<div><strong color=green>RECEIVE KEY PUBLIC > </strong>" + key_public_server.toString()+ "</div>");
+	        	frame.addLog("<strong color=green>RECEIVE KEY PUBLIC > </strong>" + key_public_server.toString());
 	        	frame.enabledButton();
 	    	}
 	        // add message

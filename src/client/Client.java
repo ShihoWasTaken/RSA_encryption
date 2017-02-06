@@ -34,7 +34,7 @@ public class Client extends SocketClient {
             @Override
             public void run() {
                 try {
-                	frame.addLog("<div><strong color=red>MY IP > </strong>" + myIpNetwork() + "</div>");
+                	frame.addLog("<strong color=red>MY IP > </strong>" + myIpNetwork());
                 	
                 	Message line;
                     send(key_public);

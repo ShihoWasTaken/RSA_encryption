@@ -33,7 +33,7 @@ public class InterfaceUI extends JFrame {
     }
     
     public void addLog(String message){
-    	text_textarealog = text_textarealog + message  + "<br>";
+    	text_textarealog = text_textarealog + "<p style='word-wrap: break-word;width:350px'>" + message  + "</p>";
 	    textArea_log.setText( text_textarealog);
     }
    
@@ -110,9 +110,10 @@ public class InterfaceUI extends JFrame {
         textArea.setForeground(Color.WHITE);
         textArea.setBackground(Color.WHITE);
         JScrollPane scroll = new JScrollPane (textArea, 
-        JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-		add(scroll);
-        panel.add(textArea);
+        JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scroll.setLocation(12, 12);
+        scroll.setSize(626, 271);
+        panel.add(scroll);
 
         JPanel panel3 = new JPanel();
         tabbedPane.addTab("Log", null, panel3, null);
@@ -124,9 +125,10 @@ public class InterfaceUI extends JFrame {
         textArea_log.setSize(626, 271);
         textArea_log.setBackground(Color.GRAY);
         JScrollPane scroll2 = new JScrollPane (textArea_log, 
-        JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-		add(scroll2);
-        panel3.add(textArea_log);
+        JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scroll2.setLocation(12, 12);
+        scroll2.setSize(626, 271);
+        panel3.add(scroll2);
         
         
         add(totalGUI);

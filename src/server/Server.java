@@ -29,7 +29,7 @@ public class Server extends SocketClient {
 	public void InitSocketServer(int port) {
 		try{
 			serverSocket = new ServerSocket(port);
-			frame.addLog("<div><strong color=red>MY IP > </strong>" + myIpNetwork() + "</div>");
+			frame.addLog("<strong color=red>MY IP > </strong>" + myIpNetwork());
 	
 			while (true) {
 				clientSocket = serverSocket.accept();
