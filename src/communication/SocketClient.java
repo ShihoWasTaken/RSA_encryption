@@ -11,6 +11,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Enumeration;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.log4j.Logger;
 
 import RSA.Encryption;
@@ -82,7 +83,7 @@ public class SocketClient {
 	    		String img = "<img style='display:inline-block;' src='" + "file:resources/" + nomDuClient + ".jpg" + "' height=" + AVATAR_SIZE + " width=" + AVATAR_SIZE + "></img>";
 	    		String table = "<table style='width:100%;'><tr style='width:100%;'>"
 	    				+ "<td width=\"10%\" style='font-family:\"Roboto\";'>" + nomDuClient + "<br>" + img + "</td>"
-	    				+ "<td width=\"90%\" style='font-family:\"Roboto\";text-align:left;color: black;background-color:#D8D8D8;padding:5px;margin:5px;border-radius:10px;'>" + text_decryp +  "</td>"
+	    				+ "<td width=\"90%\" style='font-family:\"Roboto\";text-align:left;color: black;background-color:#D8D8D8;padding:5px;margin:5px;border-radius:10px;'>" + StringEscapeUtils.escapeHtml4(text_decryp) +  "</td>"
 	    				+ "</tr></table>";
 	        	frame.addMessage(table);
 	        	frame.addLog("<strong color=green>RECEIVE MESSAGE (crypt) > </strong>" + message.getMessage());
@@ -111,7 +112,7 @@ public class SocketClient {
     			nomDuClient = "Bob";
     		String img = "<img style='display:inline-block;' src='" + "file:resources/" + nomDuClient + ".jpg" + "' height=" + AVATAR_SIZE + " width=" + AVATAR_SIZE + "></img>";
     		String table = "<table style='width:100%;'><tr style='width:100%;'>"
-    				+ "<td width=\"90%\" style='font-family:\"Roboto\";text-align:left;color: white;background-color:#0033FF;padding:5px;margin:5px;border-radius:10px;'>" + text +  "</td>"
+    				+ "<td width=\"90%\" style='font-family:\"Roboto\";text-align:left;color: white;background-color:#0033FF;padding:5px;margin:5px;border-radius:10px;'>" + StringEscapeUtils.escapeHtml4(text) +  "</td>"
     				+ "<td width=\"10%\" style='font-family:\"Roboto\";'>" + "Moi" + "<br>" + img + "</td>"
     				+ "</tr></table>";
         	frame.addMessage(table);

@@ -14,6 +14,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.log4j.Logger;
 
 public class InterfaceUI extends JFrame {
@@ -28,7 +29,7 @@ public class InterfaceUI extends JFrame {
     private JButton sendButton;
     
     public void addMessage(String message){
-    		text_textarea = text_textarea + message ;
+    		text_textarea = text_textarea + message;
 			textArea.setText( text_textarea);
     }
     

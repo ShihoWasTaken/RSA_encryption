@@ -17,7 +17,7 @@ public class Encryption {
 	{
 		List<BigInteger> newList 	= new ArrayList<BigInteger>();
 		String[] tabCrypted 		= cryptedMessage.split("-");
-				
+		
         for(int i = 0; i < tabCrypted.length; i++)
         {
         	if(!tabCrypted[i].equals("-") && tabCrypted[i] != null){
@@ -31,7 +31,7 @@ public class Encryption {
 		StringBuilder sb = new StringBuilder();
         for(int i = 0; i < newList.size(); i++)
         {
-        	sb.append((char) newList.get(i).byteValue());
+        	sb.append((char) newList.get(i).intValue());
         }
 		String str = sb.toString();
         return str;
