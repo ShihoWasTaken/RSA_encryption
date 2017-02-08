@@ -80,7 +80,7 @@ public class InterfaceUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String str = inputTextField.getText();
                 if (str != null && str.trim().length() > 0)
-                	client.send(str);
+                	client.send(str, TypeAction.message);
                 
                 inputTextField.selectAll();
                 inputTextField.requestFocus();

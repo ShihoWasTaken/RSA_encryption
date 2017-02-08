@@ -71,23 +71,42 @@ public class SocketClient {
 	        	frame.enabledButton();
 	    	}
 	        // add message
-	        else if(message.getType().equals(TypeAction.message)){
+	        else if(message.getType().equals(TypeAction.message) || message.getType().equals(TypeAction.message_return)){
 	        	String text_decryp = Encryption.decrypt(key_private , message.getMessage());
 
-	        	// LOG
     			String nomDuClient = "";
-	    		if(serverSocket == null)
-	    			nomDuClient = "Bob";
-	    		else
-	    			nomDuClient = "Alice";
+    			if(message.getType().equals(TypeAction.message_return)){
+    				nomDuClient = this.name;
+    			}
+    			else{
+		    		if(serverSocket == null)
+		    			nomDuClient = "Bob";
+		    		else
+		    			nomDuClient = "Alice";
+    			}
+	    		  
+    			// BUILD HTML
 	    		String img = "<img style='display:inline-block;' src='" + "file:resources/" + nomDuClient + ".jpg" + "' height=" + AVATAR_SIZE + " width=" + AVATAR_SIZE + "></img>";
-	    		String table = "<table style='width:100%;'><tr style='width:100%;'>"
-	    				+ "<td width=\"10%\" style='font-family:\"Roboto\";'>" + nomDuClient + "<br>" + img + "</td>"
-	    				+ "<td width=\"90%\" style='font-family:\"Roboto\";text-align:left;color: black;background-color:#D8D8D8;padding:5px;margin:5px;border-radius:10px;'>" + StringEscapeUtils.escapeHtml4(text_decryp) +  "</td>"
-	    				+ "</tr></table>";
+	    		String table = "<table style='width:100%;'><tr style='width:100%;'>";
+	    		if( nomDuClient.equals(this.name)){
+	    			table += "<td width=\"10%\" style='font-family:\"Roboto\";'>" + nomDuClient + "<br>" + img + "</td>"
+		    				 + "<td width=\"90%\" style='font-family:\"Roboto\";text-align:left;color: black;background-color:#D8D8D8;padding:5px;margin:5px;border-radius:10px;'>" + message.getType().toString() + " > " + StringEscapeUtils.escapeHtml4(text_decryp) +  "</td></tr></table>";	
+	    		}
+	    		else{
+	    			table += "<td width=\"90%\" style='font-family:\"Roboto\";text-align:left;color: black;background-color:#D8D8D8;padding:5px;margin:5px;border-radius:10px;'>" + message.getType().toString() + " > " + StringEscapeUtils.escapeHtml4(text_decryp) +  "</td>"
+		    				 + "<td width=\"10%\" style='font-family:\"Roboto\";'>" + nomDuClient + "<br>" + img + "</td></tr></table>";   	
+	    		}
+	    		
+	    		
 	        	frame.addMessage(table);
 	        	frame.addLog("<strong color=green>RECEIVE MESSAGE (crypt) > </strong>" + message.getMessage());
 	        	frame.addLog("<strong color=green>RECEIVE MESSAGE (decrypt) > </strong>" + text_decryp);
+	        	
+	        	
+	        	// Return Message after decryp
+	        	if(message.getType().equals(TypeAction.message)){
+	        		send(text_decryp, TypeAction.message_return);
+	        	}
 	    	}
     	}
     }
@@ -96,26 +115,14 @@ public class SocketClient {
      * Send message
      * @param text
      */
-    public void send(String text) {
+    public void send(String text, TypeAction type) {
     	logger.info("Send ("+ name +" > Other ) > " + ("message|" + text));
     	
         try {
         	
     		String text_encrypt =  Encryption.encrypt(key_public_server ,text);
-    		outputStream.writeObject(new Message(TypeAction.message, text_encrypt, null));
+    		outputStream.writeObject(new Message(type, text_encrypt, null));
     		
-    		// LOG
-    			String nomDuClient = "";
-    		if(serverSocket == null)
-    			nomDuClient = "Alice";
-    		else
-    			nomDuClient = "Bob";
-    		String img = "<img style='display:inline-block;' src='" + "file:resources/" + nomDuClient + ".jpg" + "' height=" + AVATAR_SIZE + " width=" + AVATAR_SIZE + "></img>";
-    		String table = "<table style='width:100%;'><tr style='width:100%;'>"
-    				+ "<td width=\"90%\" style='font-family:\"Roboto\";text-align:left;color: white;background-color:#0033FF;padding:5px;margin:5px;border-radius:10px;'>" + StringEscapeUtils.escapeHtml4(text) +  "</td>"
-    				+ "<td width=\"10%\" style='font-family:\"Roboto\";'>" + "Moi" + "<br>" + img + "</td>"
-    				+ "</tr></table>";
-        	frame.addMessage(table);
         	frame.addLog("<strong color=red>SEND MESSAGE (decrypt) > </strong>" + text);
     		frame.addLog("<strong color=red>SEND MESSAGE (crypt) > </strong>" + text_encrypt);
 

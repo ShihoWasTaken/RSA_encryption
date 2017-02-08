@@ -55,7 +55,7 @@ public class Client extends SocketClient {
 	public void main(String[] args) {
 		// Info Server
         String server 		= args[0];
-        name				= "Client";
+        name				= "Alice";
         
         // Create key
         this.key_public		= new PublicKey();
