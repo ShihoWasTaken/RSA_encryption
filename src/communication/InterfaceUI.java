@@ -14,7 +14,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.log4j.Logger;
 
 public class InterfaceUI extends JFrame {
@@ -28,20 +27,40 @@ public class InterfaceUI extends JFrame {
     private JTextField inputTextField;
     private JButton sendButton;
     
+    
+    /**
+     * Add message in textarea
+     * @param message
+     */
     public void addMessage(String message){
     		text_textarea = text_textarea + message;
 			textArea.setText( text_textarea);
     }
     
+    
+    /**
+     * Add log in textarea
+     * @param message
+     */
     public void addLog(String message){
     	text_textarealog = text_textarealog + "<p style='word-wrap: break-word;width:450px'>" + message  + "</p>";
 	    textArea_log.setText( text_textarealog);
     }
    
+    
+    /**
+     * Enabled button "send"
+     */
     public void enabledButton(){
     	sendButton.setEnabled(true);
     }
     
+    
+    /**
+     * Init Frame
+     * @param client
+     * @param title
+     */
 	public InterfaceUI(final SocketClient client, String title) {
 		//Init Variable 
 		text_textarea = text_textarealog = "";

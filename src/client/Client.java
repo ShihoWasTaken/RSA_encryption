@@ -44,7 +44,7 @@ public class Client extends SocketClient {
                     }
                 } catch (Exception ex) {
                 	logger.error(ex);
-        			ex.printStackTrace();
+        			//ex.printStackTrace();
                 }
             }
         };
@@ -72,7 +72,7 @@ public class Client extends SocketClient {
             InitSocketClient(server, port);
         } catch (IOException ex) {
         	logger.error("Cannot connect to " + server + ":" + port);
-            ex.printStackTrace();
+            //ex.printStackTrace();
             System.exit(0);
         }
 	}

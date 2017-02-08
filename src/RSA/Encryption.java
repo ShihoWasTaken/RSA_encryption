@@ -13,6 +13,13 @@ public class Encryption {
 	// Logger
 	static protected Logger logger =  Logger.getLogger(SocketClient.class);
 	
+	
+	/**
+	 * Decrypt message
+	 * @param privateKey
+	 * @param cryptedMessage
+	 * @return message
+	 */
 	public static String decrypt(PrivateKey privateKey, String cryptedMessage)
 	{
 		List<BigInteger> newList 	= new ArrayList<BigInteger>();
@@ -37,6 +44,13 @@ public class Encryption {
         return str;
 	}
 	
+	
+	/**
+	 * Encrypt message
+	 * @param publicKey
+	 * @param message
+	 * @return
+	 */
 	public static String encrypt(PublicKey publicKey, String message)
 	{
 		List<Integer> raw = StringToASCII(message);
@@ -52,12 +66,11 @@ public class Encryption {
         
 	}
 	
-	public static int CharToASCII(final char character)
-	{
-		return (int)character;
-	}
-	
-	
+	/**
+	 * Convert String to ASCII
+	 * @param str
+	 * @return
+	 */
 	public static List<Integer> StringToASCII(String str)
 	{
 		List<Integer> list = new ArrayList<Integer>();
@@ -70,10 +83,6 @@ public class Encryption {
 		return list;
 	}
 
-	public static char ASCIIToChar(final int ascii)
-	{
-		return (char)ascii;
-	}
 	
 	/**
 	 * @param args

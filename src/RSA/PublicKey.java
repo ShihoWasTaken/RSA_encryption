@@ -6,6 +6,8 @@ import java.util.Random;
 
 public class PublicKey implements Serializable
 {
+	private static final long serialVersionUID = 4711413527960912870L;
+
 	final static int BITS = 256;
 	
 	private BigInteger p;	

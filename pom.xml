@@ -18,7 +18,7 @@
     </plugins>
     <resources>
         <resource>
-            <directory>src</directory>
+            <directory></directory>
             <targetPath>${project.build.directory}</targetPath>
             <includes>
                 <include>log4j.properties</include>

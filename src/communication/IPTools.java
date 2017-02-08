@@ -3,11 +3,9 @@ package communication;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,9 +16,18 @@ import javax.swing.JPasswordField;
 
 public class IPTools 
 {
+	/* Default Port */
 	final static int PORT = 2222;
+	
+	/* Timeout socket */
 	final static int TIMEOUT = 1000;
 	
+	/**
+	 * Test IP 
+	 * @param host
+	 * @param port
+	 * @return
+	 */
 	public static boolean isServerOnline(String host, int port)
 	{
 		boolean exists = false;
@@ -43,13 +50,16 @@ public class IPTools
 		return exists;
 	}
 	
+	
+	/**
+	 * Get List Server Available
+	 * @return List<String>
+	 */
 	public static List<String> getAllServersAvailable()
 	{
 		List<String> servers = new ArrayList<String>();
         try
         {
-            Runtime rt = Runtime.getRuntime();
-            
             JPanel panel = new JPanel();
             JLabel label = new JLabel("Enter a password:");
             JPasswordField pass = new JPasswordField(10);
@@ -112,8 +122,7 @@ public class IPTools
         	JOptionPane.showMessageDialog(null, "Les programmes arp-scan et gksu doivent être installés sur la machine du client", "Erreur", JOptionPane.ERROR_MESSAGE);
         	System.exit(-1);
         } catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		return servers;
 	}

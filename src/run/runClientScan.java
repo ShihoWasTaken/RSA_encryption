@@ -15,6 +15,10 @@ public class runClientScan {
 	// Logger
 	static protected Logger logger =  Logger.getLogger(runClientScan.class);
 
+	/**
+	 * RUN CLIENT WITH SCAN
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		
 		List<String> servers = IPTools.getAllServersAvailable();

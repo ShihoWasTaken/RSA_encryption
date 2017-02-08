@@ -11,21 +11,24 @@ public class PrivateKey
 	
 	public PrivateKey(PublicKey publicKey)
 	{
-		BigInteger r = new BigInteger("0");
-		BigInteger v = new BigInteger("0");
-		// TODO: mieux gérer les cast et regarder s'il peut y avoir overflow
-		this.u = this.extendedEuclide(publicKey.getE(), publicKey.getM(), r, this.u, v);
-		this.publicKey = publicKey;
+		BigInteger r 	= new BigInteger("0");
+		BigInteger v 	= new BigInteger("0");
+		this.u 			= this.extendedEuclide(publicKey.getE(), publicKey.getM(), r, this.u, v);
+		this.publicKey 	= publicKey;
 	}
 	
-	/*
-	 *  Entrée : a, b entiers (naturels)
-	 * Sortie : r entier (naturel) et  u, v entiers relatifs tels que r = pgcd(a, b) et r = a*u+b*v
+	/**
+	 * extended Euclide
+	 * @param a entiers (naturels)
+	 * @param b entiers (naturels)
+	 * @param r entier (naturel) r = a*u+b*v
+	 * @param u entiers relatifs tels que r = pgcd(a, b)
+	 * @param v entiers relatifs tels que r = pgcd(a, b)
+	 * @return
 	 */
 	public BigInteger extendedEuclide(BigInteger a, BigInteger b, BigInteger r, BigInteger u, BigInteger v)
 	{
 		/*
-		 * 
 		 * Initialisation : r := a, r' := b, u := 1, v := 0, u' := 0, v' := 1
 		 * q  quotient entier
 		 * rs, us, vs  variables de stockage intermédiaires

@@ -6,7 +6,8 @@ import RSA.PublicKey;
 
 public class Message  implements Serializable {
 	
-
+	private static final long serialVersionUID = 4663993439725858032L;
+	
 	private String message;
 	private PublicKey key;
 	private TypeAction type;
