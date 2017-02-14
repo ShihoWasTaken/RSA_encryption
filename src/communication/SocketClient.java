@@ -73,19 +73,19 @@ public class SocketClient {
 	        // add message
 	        else if(message.getType().equals(TypeAction.message) || message.getType().equals(TypeAction.message_return)){
 	        	String text_decryp = Encryption.decrypt(key_private , message.getMessage());
-
-    			String nomDuClient = "";
+	        	
+	        	//Type message 
     			TypeAction type = message.getType();
     			if(type.equals(TypeAction.message_return)){
-    				nomDuClient = this.name;
     				type = TypeAction.message;
     			}
-    			else{
-		    		if(serverSocket == null)
-		    			nomDuClient = "Bob";
-		    		else
-		    			nomDuClient = "Alice";
-    			}
+    			
+    			//Name user
+    			String nomDuClient = "";
+    			if(serverSocket == null)
+	    			nomDuClient = "Bob";
+	    		else
+	    			nomDuClient = "Alice";
 	    		  
     			// BUILD HTML
 	    		String img = "<img style='display:inline-block;' src='" + "file:resources/" + nomDuClient + ".jpg" + "' height=" + AVATAR_SIZE + " width=" + AVATAR_SIZE + "></img>";
