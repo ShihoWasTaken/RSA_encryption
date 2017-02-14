@@ -2,7 +2,7 @@ package communication;
 
 public enum TypeAction {
 	public_key ("Public Key"),
-	message ("Message"),
+	message ("Message reçu"),
 	message_return ("Message envoyé");
 	
 	

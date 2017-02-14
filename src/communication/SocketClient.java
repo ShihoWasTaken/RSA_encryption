@@ -75,8 +75,10 @@ public class SocketClient {
 	        	String text_decryp = Encryption.decrypt(key_private , message.getMessage());
 
     			String nomDuClient = "";
-    			if(message.getType().equals(TypeAction.message_return)){
+    			TypeAction type = message.getType();
+    			if(type.equals(TypeAction.message_return)){
     				nomDuClient = this.name;
+    				type = TypeAction.message;
     			}
     			else{
 		    		if(serverSocket == null)
@@ -90,10 +92,10 @@ public class SocketClient {
 	    		String table = "<table style='width:100%;'><tr style='width:100%;'>";
 	    		if( nomDuClient.equals(this.name)){
 	    			table += "<td width=\"10%\" style='font-family:\"Roboto\";'>" + nomDuClient + "<br>" + img + "</td>"
-		    				 + "<td width=\"90%\" style='font-family:\"Roboto\";text-align:left;color: black;background-color:#D8D8D8;padding:5px;margin:5px;border-radius:10px;'>" + message.getType().toString() + " > " + StringEscapeUtils.escapeHtml4(text_decryp) +  "</td></tr></table>";	
+		    				 + "<td width=\"90%\" style='font-family:\"Roboto\";text-align:left;color: black;background-color:#D8D8D8;padding:5px;margin:5px;border-radius:10px;'>" +type.toString() + " > " + StringEscapeUtils.escapeHtml4(text_decryp) +  "</td></tr></table>";	
 	    		}
 	    		else{
-	    			table += "<td width=\"90%\" style='font-family:\"Roboto\";text-align:left;color: black;background-color:#D8D8D8;padding:5px;margin:5px;border-radius:10px;'>" + message.getType().toString() + " > " + StringEscapeUtils.escapeHtml4(text_decryp) +  "</td>"
+	    			table += "<td width=\"90%\" style='font-family:\"Roboto\";text-align:left;color: black;background-color:#D8D8D8;padding:5px;margin:5px;border-radius:10px;'>" + type.toString() + " > " + StringEscapeUtils.escapeHtml4(text_decryp) +  "</td>"
 		    				 + "<td width=\"10%\" style='font-family:\"Roboto\";'>" + nomDuClient + "<br>" + img + "</td></tr></table>";   	
 	    		}
 	    		
@@ -123,16 +125,18 @@ public class SocketClient {
     		String text_encrypt =  Encryption.encrypt(key_public_server ,text);
     		outputStream.writeObject(new Message(type, text_encrypt, null));
     		
-    		if( type.equals(TypeAction.message) ){
-	    		// BUILD HTML
-	    		String img = "<img style='display:inline-block;' src='" + "file:resources/" + this.name + ".jpg" + "' height=" + AVATAR_SIZE + " width=" + AVATAR_SIZE + "></img>";
-	    		String table = "<table style='width:100%;'><tr style='width:100%;'>"
-							 + "<td width=\"10%\" style='font-family:\"Roboto\";'>" + this.name + "<br>" + img + "</td>"
-		    				 + "<td width=\"90%\" style='font-family:\"Roboto\";text-align:left;color: black;background-color:#D8D8D8;padding:5px;margin:5px;border-radius:10px;'>" + TypeAction.message + " > " + StringEscapeUtils.escapeHtml4(text) +  "</td></tr></table>";	
-	    	
-	    		
-	        	frame.addMessage(table);
-    		}
+    		if(type.equals(TypeAction.message)){
+    			type = TypeAction.message_return;
+			}
+    		
+    		// BUILD HTML
+    		String img = "<img style='display:inline-block;' src='" + "file:resources/" + this.name + ".jpg" + "' height=" + AVATAR_SIZE + " width=" + AVATAR_SIZE + "></img>";
+    		String table = "<table style='width:100%;'><tr style='width:100%;'>"
+						 + "<td width=\"10%\" style='font-family:\"Roboto\";'>" + this.name + "<br>" + img + "</td>"
+	    				 + "<td width=\"90%\" style='font-family:\"Roboto\";text-align:left;color: black;background-color:#D8D8D8;padding:5px;margin:5px;border-radius:10px;'>" + type.toString() + " > " + StringEscapeUtils.escapeHtml4(text) +  "</td></tr></table>";	
+    	
+    		
+        	frame.addMessage(table);
     		
         	frame.addLog("<strong color=red>SEND MESSAGE (decrypt) > </strong>" + text);
     		frame.addLog("<strong color=red>SEND MESSAGE (crypt) > </strong>" + text_encrypt);

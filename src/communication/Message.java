@@ -29,4 +29,8 @@ public class Message  implements Serializable {
 	public TypeAction getType() {
 		return type;
 	}
+	
+	public void  setType(TypeAction letype) {
+		type = letype;
+	}
 }
