@@ -123,6 +123,17 @@ public class SocketClient {
     		String text_encrypt =  Encryption.encrypt(key_public_server ,text);
     		outputStream.writeObject(new Message(type, text_encrypt, null));
     		
+    		if( type.equals(TypeAction.message) ){
+	    		// BUILD HTML
+	    		String img = "<img style='display:inline-block;' src='" + "file:resources/" + this.name + ".jpg" + "' height=" + AVATAR_SIZE + " width=" + AVATAR_SIZE + "></img>";
+	    		String table = "<table style='width:100%;'><tr style='width:100%;'>"
+							 + "<td width=\"10%\" style='font-family:\"Roboto\";'>" + this.name + "<br>" + img + "</td>"
+		    				 + "<td width=\"90%\" style='font-family:\"Roboto\";text-align:left;color: black;background-color:#D8D8D8;padding:5px;margin:5px;border-radius:10px;'>" + TypeAction.message + " > " + StringEscapeUtils.escapeHtml4(text) +  "</td></tr></table>";	
+	    	
+	    		
+	        	frame.addMessage(table);
+    		}
+    		
         	frame.addLog("<strong color=red>SEND MESSAGE (decrypt) > </strong>" + text);
     		frame.addLog("<strong color=red>SEND MESSAGE (crypt) > </strong>" + text_encrypt);
 
